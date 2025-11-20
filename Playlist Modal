@@ -1,0 +1,20 @@
+<!-- Playlist Modal -->
+    <div id="playlist-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-800 p-6 rounded-lg w-full max-w-md">
+            <h3 class="text-2xl font-bold mb-4 text-green-400">Add to Playlist</h3>
+            <div class="mb-4">
+                <input type="text" id="new-playlist-name" placeholder="Enter new playlist name" class="w-full px-4 py-2 rounded-md bg-gray-700 text-gray-200 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500">
+                <button id="save-playlist-btn" class="mt-2 w-full bg-green-500 text-white py-2 rounded-md font-bold hover:bg-green-400 transition-colors">Create New Playlist</button>
+            </div>
+            <div class="border-t border-gray-600 pt-4 mt-4">
+                <h4 class="text-lg font-semibold mb-2">Or add to existing:</h4>
+                <div id="playlist-modal-song-list" class="max-h-64 overflow-y-auto pr-2 scroll-container">
+                    <!-- Existing playlists will be rendered here -->
+                </div>
+            </div>
+            <button id="close-playlist-modal" class="mt-6 w-full bg-red-600 text-white py-2 rounded-md font-bold hover:bg-red-500 transition-colors">Cancel</button>
+        </div>
+    </div>
+
+</body>
+</html>
