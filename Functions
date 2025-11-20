@@ -1,0 +1,241 @@
+// Functions
+        function showMessage(message) {
+            messageBoxEl.textContent = message;
+            messageBoxEl.className = "show";
+            setTimeout(() => {
+                messageBoxEl.className = messageBoxEl.className.replace("show", "");
+            }, 3000);
+        }
+
+        function renderSongs(songs, container, isPlaylist = false) {
+            container.innerHTML = '';
+            songs.forEach(song => {
+                const songEl = document.createElement('div');
+                songEl.className = music-item flex items-center justify-between p-4 rounded-lg bg-gray-800 border-l-4 border-transparent mb-2;
+                songEl.innerHTML = `
+                    <div class="flex-grow">
+                        <h4 class="text-white font-semibold">${song.title}</h4>
+                        <p class="text-gray-400 text-sm">${song.artist}</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="add-to-playlist-btn text-green-500 hover:text-green-400 p-2 rounded-full" data-song-id="${song.id}">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M11 5H9V3h2v2zm0 2H9v2h2V7zm0 2H9v2h2V9zm0 2H9v2h2v-2zm0 2H9v2h2v-2zm-2 2H7v2h2v-2zm2 0h2v2h-2v-2zm2 0h2v2h-2v-2zm0-2h2v2h-2v-2zm0-2h2v2h-2v-2zm-2-2h-2v2h2V9zm-2-2H7v2h2V7zm2 2h2v2h-2V9zm0 2h2v2h-2v-2zm2 0h2v2h-2v-2z"></path></svg>
+                        </button>
+                    </div>
+                `;
+                songEl.onclick = () => playSong(song.id, songs);
+                container.appendChild(songEl);
+            });
+        }
+
+        function playSong(songId, songList) {
+            const songIndex = songList.findIndex(s => s.id === songId);
+            if (songIndex !== -1) {
+                currentSongIndex = songIndex;
+                currentPlaylist = songList;
+                const song = currentPlaylist[currentSongIndex];
+                
+                audioPlayer.src = song.url;
+                audioPlayer.play();
+                updateUIForPlayback(song);
+                
+                // Add "active" class to the current song
+                document.querySelectorAll('.music-item').forEach(item => {
+                    item.classList.remove('active-song');
+                    if (item.querySelector('h4').textContent === song.title) {
+                        item.classList.add('active-song');
+                    }
+                });
+            } else {
+                showMessage("Song not found in the current list.");
+            }
+        }
+
+        function updateUIForPlayback(song) {
+            currentSongTitleEl.textContent = song.title;
+            currentSongArtistEl.textContent = song.artist;
+            playPauseBtn.innerHTML = `
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+            `;
+        }
+
+        function togglePlayPause() {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                playPauseBtn.innerHTML = <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>;
+            } else {
+                audioPlayer.pause();
+                playPauseBtn.innerHTML = <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>;
+            }
+        }
+
+        function playNextSong() {
+            if (currentPlaylist.length === 0) return;
+            currentSongIndex = (currentSongIndex + 1) % currentPlaylist.length;
+            playSong(currentPlaylist[currentSongIndex].id, currentPlaylist);
+        }
+
+        function playPrevSong() {
+            if (currentPlaylist.length === 0) return;
+            currentSongIndex = (currentSongIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
+            playSong(currentPlaylist[currentSongIndex].id, currentPlaylist);
+        }
+
+        function handleSearch() {
+            const query = searchInput.value.toLowerCase();
+            const filteredSongs = allSongs.filter(song =>
+                song.title.toLowerCase().includes(query) ||
+                song.artist.toLowerCase().includes(query)
+            );
+            renderSongs(filteredSongs, songListEl);
+        }
+
+        function showPlaylistModal(songId) {
+            currentSongForPlaylist = allSongs.find(s => s.id === songId);
+            if (!currentSongForPlaylist) {
+                showMessage("Error: Song not found.");
+                return;
+            }
+            playlistModalEl.classList.remove('hidden');
+            renderPlaylistModalSongs();
+        }
+
+        function renderPlaylistModalSongs() {
+            playlistModalSongListEl.innerHTML = '';
+            playlists.forEach(playlist => {
+                const playlistItem = document.createElement('div');
+                playlistItem.className = 'flex items-center justify-between p-2 rounded-lg bg-gray-700 mb-2 hover:bg-gray-600 transition-colors cursor-pointer';
+                playlistItem.textContent = playlist.name;
+                playlistItem.onclick = () => {
+                    addSongToExistingPlaylist(playlist.id, currentSongForPlaylist);
+                };
+                playlistModalSongListEl.appendChild(playlistItem);
+            });
+        }
+
+        async function addSongToExistingPlaylist(playlistId, song) {
+            if (!authReady || isSavingPlaylist) return;
+            isSavingPlaylist = true;
+            try {
+                const playlistDocRef = doc(db, 'artifacts', appId, 'users', currentUserId, 'playlists', playlistId);
+                const playlistDoc = await getDoc(playlistDocRef);
+                const playlistData = playlistDoc.data();
+                
+                const newSongs = playlistData.songs || [];
+                if (!newSongs.some(s => s.id === song.id)) {
+                    newSongs.push(song);
+                    await updateDoc(playlistDocRef, { songs: newSongs });
+                    showMessage(Song "${song.title}" added to playlist "${playlistData.name}".);
+                } else {
+                    showMessage(Song "${song.title}" is already in playlist "${playlistData.name}".);
+                }
+                
+                playlistModalEl.classList.add('hidden');
+            } catch (e) {
+                console.error("Error adding song to playlist: ", e);
+                showMessage("Failed to add song to playlist.");
+            } finally {
+                isSavingPlaylist = false;
+            }
+        }
+        
+        async function saveNewPlaylist() {
+            if (!authReady || isSavingPlaylist) return;
+            isSavingPlaylist = true;
+            const newPlaylistName = newPlaylistNameInput.value.trim();
+            if (!newPlaylistName) {
+                showMessage("Please enter a playlist name.");
+                isSavingPlaylist = false;
+                return;
+            }
+            if (!currentSongForPlaylist) {
+                showMessage("No song selected to create a playlist with.");
+                isSavingPlaylist = false;
+                return;
+            }
+
+            try {
+                const playlistsColRef = collection(db, 'artifacts', appId, 'users', currentUserId, 'playlists');
+                const newPlaylistRef = await addDoc(playlistsColRef, {
+                    name: newPlaylistName,
+                    songs: [currentSongForPlaylist],
+                    createdAt: new Date()
+                });
+                showMessage(New playlist "${newPlaylistName}" created.);
+                newPlaylistNameInput.value = '';
+                playlistModalEl.classList.add('hidden');
+            } catch (e) {
+                console.error("Error creating new playlist: ", e);
+                showMessage("Failed to create new playlist.");
+            } finally {
+                isSavingPlaylist = false;
+            }
+        }
+
+        function showPlaylistSongs(playlist) {
+            playlistSongs = playlist.songs || [];
+            if (playlistSongs.length === 0) {
+                showMessage("This playlist is empty.");
+                songListEl.innerHTML = '<div class="p-4 text-center text-gray-500">This playlist is empty. Add some songs!</div>';
+                return;
+            }
+            renderSongs(playlistSongs, songListEl);
+        }
+
+        // Event Listeners
+        playPauseBtn.addEventListener('click', togglePlayPause);
+        nextBtn.addEventListener('click', playNextSong);
+        prevBtn.addEventListener('click', playPrevSong);
+        searchInput.addEventListener('input', handleSearch);
+        savePlaylistBtn.addEventListener('click', saveNewPlaylist);
+        closePlaylistModalBtn.addEventListener('click', () => {
+            playlistModalEl.classList.add('hidden');
+        });
+
+        // Add event listener for dynamically created "add to playlist" buttons
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.add-to-playlist-btn')) {
+                const songId = e.target.closest('.add-to-playlist-btn').dataset.songId;
+                showPlaylistModal(songId);
+            }
+        });
+
+        // Firestore data listeners
+        async function setupFirestoreListeners() {
+            if (!currentUserId) return;
+            
+            // Populate initial songs if collection is empty
+            const songsRef = collection(db, 'artifacts', appId, 'public', 'data', 'songs');
+            const songDocs = await getDocs(songsRef);
+            if (songDocs.empty) {
+                showMessage("Populating initial song library...");
+                for (const song of hardcodedSongs) {
+                    await setDoc(doc(songsRef, song.id), song);
+                }
+                showMessage("Song library populated!");
+            }
+
+            // Listen for changes to the song collection
+            onSnapshot(songsRef, (snapshot) => {
+                allSongs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderSongs(allSongs, songListEl);
+            });
+
+            // Listen for changes to the user's playlists
+            const playlistsRef = collection(db, 'artifacts', appId, 'users', currentUserId, 'playlists');
+            onSnapshot(playlistsRef, (snapshot) => {
+                playlists = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderPlaylists();
+            });
+        }
+
+        function renderPlaylists() {
+            playlistListEl.innerHTML = '';
+            playlists.forEach(playlist => {
+                const playlistItem = document.createElement('div');
+                playlistItem.className = 'flex items-center justify-between p-4 rounded-lg bg-gray-800 border-l-4 border-transparent mb-2 hover:bg-gray-700 transition-colors cursor-pointer';
+                playlistItem.innerHTML = <h4 class="text-white font-semibold">${playlist.name}</h4>;
+                playlistItem.onclick = () => showPlaylistSongs(playlist);
+                playlistListEl.appendChild(playlistItem);
+            });
+        }
