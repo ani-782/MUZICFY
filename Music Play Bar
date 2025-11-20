@@ -1,0 +1,25 @@
+<!-- Music Player Bar -->
+        <div class="relative bg-gray-800 rounded-xl p-6 flex items-center justify-between shadow-lg">
+            <div class="flex items-center space-x-4">
+                <img src="https://placehold.co/80x80/2c323b/c9d1d9?text=Album" class="w-20 h-20 rounded-lg shadow-md" alt="Album Art">
+                <div class="flex flex-col">
+                    <h3 id="current-song-title" class="text-white font-bold text-lg">Not Playing</h3>
+                    <p id="current-song-artist" class="text-gray-400 text-sm">Select a song</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <button id="prev-btn" class="p-2 rounded-full text-green-400 hover:text-green-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M15.53 7.53a.75.75 0 010 1.06L11.06 13l4.47 4.47a.75.75 0 11-1.06 1.06l-5-5a.75.75 0 010-1.06l5-5a.75.75 0 011.06 0zM10.75 4a.75.75 0 01-.75.75h-7a.75.75 0 010-1.5h7c.414 0 .75.336.75.75z" clip-rule="evenodd"></path></svg>
+                </button>
+                <button id="play-pause-btn" class="p-4 rounded-full text-white bg-green-500 hover:bg-green-400 transition-colors">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                </button>
+                <button id="next-btn" class="p-2 rounded-full text-green-400 hover:text-green-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.47 7.53a.75.75 0 010-1.06L8.94 2l4.47 4.47a.75.75 0 11-1.06 1.06L9 4.06l-3.97 3.97a.75.75 0 01-1.06 0zM9.25 16a.75.75 0 01.75-.75h7a.75.75 0 010 1.5h-7a.75.75 0 01-.75-.75z" clip-rule="evenodd"></path></svg>
+                </button>
+            </div>
+            
+            <p id="user-id" class="text-xs text-gray-500"></p>
+        </div>
+    </div>
