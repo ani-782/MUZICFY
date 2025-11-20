@@ -1,0 +1,25 @@
+<!-- UI Layout -->
+    <div class="flex-1 flex flex-col p-8 space-y-8 max-h-screen">
+        <div class="flex items-center justify-between mb-4">
+            <h1 class="text-4xl font-bold text-green-400 tracking-wide">MUZICFY</h1>
+            <div class="relative w-1/3">
+                <input type="text" id="search-input" placeholder="Search songs..." class="w-full pl-10 pr-4 py-2 rounded-full bg-gray-800 text-gray-200 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all">
+                <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+            </div>
+        </div>
+
+        <div class="flex flex-grow space-x-8 overflow-hidden">
+            <!-- Main Content Area: All Songs and Playlists -->
+            <div class="flex flex-col w-3/4 bg-gray-900 rounded-xl p-6 shadow-2xl overflow-hidden">
+                <h2 class="text-2xl font-bold mb-6 text-green-400">All Songs</h2>
+                <div id="song-list" class="flex-grow overflow-y-auto pr-4 scroll-container">
+                    <!-- Song items will be rendered here by JavaScript -->
+                    <div class="flex items-center justify-center h-full text-gray-500 text-lg">
+                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Loading songs...
+                    </div>
+                </div>
+            </div>
