@@ -1,0 +1,27 @@
+// Firebase Global Variables
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        setLogLevel('debug');
+
+        // Global state
+        let currentUserId = null;
+        let authReady = false;
+        let isSavingPlaylist = false;
+        const hardcodedSongs = [
+            { id: 'song1', title: 'The Sound of Silence', artist: 'Simon & Garfunkel', album: 'Sounds of Silence', url: 'https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3' },
+            { id: 'song2', title: 'Hotel California', artist: 'Eagles', album: 'Hotel California', url: 'https://www.learningcontainer.com/wp-content/uploads/2020/02/Piano-sample.mp3' },
+            { id: 'song3', title: 'Bohemian Rhapsody', artist: 'Queen', album: 'A Night at the Opera', url: 'https://www.learningcontainer.com/wp-content/uploads/2020/02/sample-mp3-file.mp3' },
+            { id: 'song4', title: 'Stairway to Heaven', artist: 'Led Zeppelin', album: 'Led Zeppelin IV', url: 'https://www.learningcontainer.com/wp-content/uploads/2020/02/sample-mp3-file.mp3' },
+            { id: 'song5', title: 'Imagine', artist: 'John Lennon', album: 'Imagine', url: 'https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3' },
+            { id: 'song6', title: 'Sweet Child o\' Mine', artist: 'Guns N\' Roses', album: 'Appetite for Destruction', url: 'https://www.learningcontainer.com/wp-content/uploads/2020/02/Piano-sample.mp3' },
+            { id: 'song7', title: 'Back in Black', artist: 'AC/DC', album: 'Back in Black', url: 'https://www.learningcontainer.com/wp-content/uploads/2020/02/sample-mp3-file.mp3' },
+            { id: 'song8', title: 'Like a Rolling Stone', artist: 'Bob Dylan', album: 'Highway 61 Revisited', url: 'https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3' },
+            { id: 'song9', title: 'What a Wonderful World', artist: 'Louis Armstrong', album: 'What a Wonderful World', url: 'https://www.learningcontainer.com/wp-content/uploads/2020/02/Piano-sample.mp3' },
+            { id: 'song10', title: 'Billie Jean', artist: 'Michael Jackson', album: 'Thriller', url: 'https://www.learningcontainer.com/wp-content/uploads/2020/02/sample-mp3-file.mp3' }
+        ];
