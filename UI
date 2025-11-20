@@ -1,0 +1,25 @@
+// UI Elements
+        const audioPlayer = new Audio();
+        let currentSongIndex = -1;
+        let currentPlaylist = hardcodedSongs;
+        let allSongs = [];
+        let playlists = [];
+        let playlistSongs = [];
+
+        const songListEl = document.getElementById('song-list');
+        const playlistListEl = document.getElementById('playlist-list');
+        const currentSongTitleEl = document.getElementById('current-song-title');
+        const currentSongArtistEl = document.getElementById('current-song-artist');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const searchInput = document.getElementById('search-input');
+        const userIdEl = document.getElementById('user-id');
+        const messageBoxEl = document.getElementById('messageBox');
+        const playlistModalEl = document.getElementById('playlist-modal');
+        const newPlaylistNameInput = document.getElementById('new-playlist-name');
+        const savePlaylistBtn = document.getElementById('save-playlist-btn');
+        const playlistModalSongListEl = document.getElementById('playlist-modal-song-list');
+        const addToPlaylistBtn = document.getElementById('add-to-playlist-btn');
+        const closePlaylistModalBtn = document.getElementById('close-playlist-modal');
+        let currentSongForPlaylist = null;
